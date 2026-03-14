@@ -10,6 +10,7 @@
     "lint:fix": "eslint --fix",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "vitest run --config vitest.e2e.config.ts",
     "migrate:up": "node-pg-migrate up -j ts -m ./db/migrations",
     "migrate:down": "node-pg-migrate down -j ts -m ./db/migrations",
     "migrate:create": "node-pg-migrate create -j ts -m ./db/migrations"

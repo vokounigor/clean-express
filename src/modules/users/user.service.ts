@@ -1,9 +1,14 @@
 import { HttpError } from '~/shared/errors/http-error.js';
 import { UserRepository, User } from './user.repository.js';
 import { CreateUserInput } from './user.schema.js';
+import { Cradle } from '~/container.js';
 
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  private readonly userRepository: UserRepository;
+
+  constructor({ userRepository }: Pick<Cradle, 'userRepository'>) {
+    this.userRepository = userRepository;
+  }
 
   async getUsers(): Promise<User[]> {
     return this.userRepository.findAll();

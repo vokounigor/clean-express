@@ -1,6 +1,7 @@
 import { IDatabase } from '~/infrastructure/database/database.interface.js';
 import { AppLogger } from '~/infrastructure/logger/index.js';
 import { CreateUserInput } from './user.schema.js';
+import { Cradle } from '~/container.js';
 
 export interface User {
   id: string;
@@ -10,10 +11,13 @@ export interface User {
 }
 
 export class UserRepository {
-  constructor(
-    private readonly db: IDatabase,
-    private readonly logger: AppLogger
-  ) {}
+  private readonly db: IDatabase;
+  private readonly logger: AppLogger;
+
+  constructor({ db, logger }: Pick<Cradle, 'db' | 'logger'>) {
+    this.db = db;
+    this.logger = logger;
+  }
 
   async findAll(): Promise<User[]> {
     const result = await this.db.query<User>(

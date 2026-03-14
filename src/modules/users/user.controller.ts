@@ -1,9 +1,14 @@
 import { RequestHandler } from 'express';
 import { UserService } from './user.service.js';
 import { createUserSchema } from './user.schema.js';
+import { Cradle } from '~/container.js';
 
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  private readonly userService: UserService;
+
+  constructor({ userService }: Pick<Cradle, 'userService'>) {
+    this.userService = userService;
+  }
 
   getAll: RequestHandler = async (_req, res) => {
     const users = await this.userService.getUsers();
