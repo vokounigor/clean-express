@@ -1,0 +1,37 @@
+services:
+  api:
+    build:
+      context: .
+      target: development
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: development
+      LOG_LEVEL: debug
+      PGHOST: db
+      PGPORT: 5432
+      PGUSER: ${PGUSER:-postgres}
+      PGPASSWORD: ${PGPASSWORD:-postgres}
+      PGDATABASE: ${PGDATABASE:-mydb}
+      PGSSL: false
+      PG_POOL_MAX: 10
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: ${PGUSER:-postgres}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}
+      POSTGRES_DB: ${PGDATABASE:-mydb}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
