@@ -1,48 +1,55 @@
 import { IDatabase } from '~/infrastructure/database/database.interface.js';
-import { AppLogger } from '~/infrastructure/logger/index.js';
-import { CreateUserInput } from './user.schema.js';
+import { CreateUserInput, UpdateUserInput } from './user.validators.js';
 import { Cradle } from '~/container.js';
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  created_at: Date;
-}
+import { UserEntity } from './user.entity.js';
 
 export class UserRepository {
   private readonly db: IDatabase;
-  private readonly logger: AppLogger;
 
-  constructor({ db, logger }: Pick<Cradle, 'db' | 'logger'>) {
+  constructor({ db }: Pick<Cradle, 'db'>) {
     this.db = db;
-    this.logger = logger;
   }
 
-  async findAll(): Promise<User[]> {
-    const result = await this.db.query<User>(
+  async findAll(): Promise<UserEntity[]> {
+    const { rows } = await this.db.query<UserEntity>(
       'SELECT * FROM users ORDER BY created_at DESC'
     );
-    return result.rows;
+    return rows.map(UserEntity.fromRow);
   }
 
-  async findById(id: string): Promise<User | null> {
-    const result = await this.db.query<User>(
+  async findById(id: string): Promise<UserEntity | null> {
+    const result = await this.db.query<UserEntity>(
       'SELECT * FROM users WHERE id = $1',
       [id]
     );
-    return result.rows[0] ?? null;
+    return result.rows[0] ? UserEntity.fromRow(result.rows[0]) : null;
   }
 
-  async create(input: CreateUserInput): Promise<User> {
-    const result = await this.db.query<User>(
+  async create(input: CreateUserInput): Promise<UserEntity> {
+    const result = await this.db.query<UserEntity>(
       'INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *',
       [input.name, input.email]
     );
-    // TODO: FIX
-    // @ts-expect-error to be fixed
-    this.logger.info({ userId: result.rows[0].id }, 'User created');
-    // @ts-expect-error to be fixed
-    return result.rows[0];
+
+    return UserEntity.fromRow(result.rows[0]);
+  }
+
+  async update(id: string, dto: UpdateUserInput): Promise<UserEntity | null> {
+    const { rows } = await this.db.query(
+      `UPDATE users
+       SET name = COALESCE($1, name), email = COALESCE($2, email)
+       WHERE id = $3
+       RETURNING *`,
+      [dto.name ?? null, dto.email ?? null, id]
+    );
+    return rows[0] ? UserEntity.fromRow(rows[0]) : null;
+  }
+
+  async delete(id: string): Promise<boolean> {
+    const { rowCount } = await this.db.query(
+      'DELETE FROM users WHERE id = $1',
+      [id]
+    );
+    return (rowCount ?? 0) > 0;
   }
 }

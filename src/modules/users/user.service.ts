@@ -1,6 +1,7 @@
 import { HttpError } from '~/shared/errors/http-error.js';
-import { UserRepository, User } from './user.repository.js';
-import { CreateUserInput } from './user.schema.js';
+import { UserRepository } from './user.repository.js';
+import { CreateUserInput, UpdateUserInput } from './user.validators.js';
+import { UserEntity } from './user.entity.js';
 import { Cradle } from '~/container.js';
 
 export class UserService {
@@ -10,17 +11,28 @@ export class UserService {
     this.userRepository = userRepository;
   }
 
-  async getUsers(): Promise<User[]> {
+  async getUsers(): Promise<UserEntity[]> {
     return this.userRepository.findAll();
   }
 
-  async getUserById(id: string): Promise<User> {
+  async getUserById(id: string): Promise<UserEntity> {
     const user = await this.userRepository.findById(id);
     if (!user) throw new HttpError(404, `User with id ${id} not found`);
     return user;
   }
 
-  async createUser(input: CreateUserInput): Promise<User> {
+  async createUser(input: CreateUserInput): Promise<UserEntity> {
     return this.userRepository.create(input);
+  }
+
+  async updateUser(id: string, dto: UpdateUserInput): Promise<UserEntity> {
+    const user = await this.userRepository.update(id, dto);
+    if (!user) throw new HttpError(404, `User ${id} not found`);
+    return user;
+  }
+
+  async deleteUser(id: string): Promise<void> {
+    const deleted = await this.userRepository.delete(id);
+    if (!deleted) throw new HttpError(404, `User ${id} not found`);
   }
 }
