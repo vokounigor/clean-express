@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { asValue } from 'awilix';
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import supertest from 'supertest';
@@ -13,7 +12,7 @@ const mockDb: IDatabase = {
 };
 
 describe('Users API (e2e)', () => {
-  let request: supertest.SuperTest<supertest.Test>;
+  let request: supertest.Agent;
   let container: ReturnType<typeof createAppContainer>;
 
   beforeAll(() => {
@@ -21,7 +20,6 @@ describe('Users API (e2e)', () => {
 
     container.register({ db: asValue(mockDb) });
     const app = createApp(container);
-    // @ts-expect-error No error here
     request = supertest(app);
   });
 

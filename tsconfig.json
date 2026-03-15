@@ -15,9 +15,6 @@
     "strict": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["src/*"]

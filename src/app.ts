@@ -12,6 +12,9 @@ export const createApp = (container: AwilixContainer<Cradle>) => {
   app.use(express.json());
   app.use(pinoHttp({ logger }));
 
+  app.use('/health', (_, res) => {
+    res.status(200).json({ status: 'ok' });
+  });
   app.use('/users', createUserRouter(userController));
 
   app.use(createErrorHandler(logger));

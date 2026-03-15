@@ -18,9 +18,15 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+    working_dir: /app
 
   db:
     image: postgres:18-alpine
+    ports:
+      - '5432:5432'
     environment:
       POSTGRES_USER: ${PGUSER:-postgres}
       POSTGRES_PASSWORD: ${PGPASSWORD:-postgres}

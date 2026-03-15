@@ -8,6 +8,7 @@ export default defineConfig({
     },
   },
   test: {
+    setupFiles: 'tests/setup.ts',
     environment: 'node',
     include: ['tests/e2e/**/*.e2e.test.ts'],
     pool: 'forks',

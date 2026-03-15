@@ -3,18 +3,18 @@ import { UserService } from '~/modules/users/user.service.js';
 import { UserRepository } from '~/modules/users/user.repository.js';
 import { HttpError } from '~/shared/errors/http-error.js';
 
-const mockRepo: Partial<UserRepository> = {
+const mockRepo = {
   findById: vi.fn(),
   findAll: vi.fn(),
   create: vi.fn(),
-};
+} as unknown as UserRepository;
 
 describe('UserService', () => {
   let service: UserService;
 
   beforeEach(() => {
     vi.clearAllMocks();
-    service = new UserService(mockRepo as UserRepository);
+    service = new UserService({ userRepository: mockRepo });
   });
 
   describe('getUserById', () => {
@@ -23,7 +23,7 @@ describe('UserService', () => {
         id: '1',
         name: 'Alice',
         email: 'a@example.com',
-        created_at: new Date(),
+        createdAt: new Date(),
       };
       vi.mocked(mockRepo.findById!).mockResolvedValue(user);
 

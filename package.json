@@ -2,6 +2,7 @@
   "name": "clean-express",
   "version": "1.0.0",
   "type": "module",
+  "license": "ISC",
   "scripts": {
     "dev": "tsx watch --tsconfig tsconfig.json src/server.ts",
     "build": "tsc && tsc-alias",
@@ -15,7 +16,6 @@
     "migrate:down": "node-pg-migrate down -j ts -m ./db/migrations",
     "migrate:create": "node-pg-migrate create -j ts -m ./db/migrations"
   },
-  "license": "ISC",
   "dependencies": {
     "awilix": "^13.0.3",
     "dotenv": "^17.3.1",

@@ -1,13 +1,13 @@
 import pg from 'pg';
 import type { QueryResult, QueryResultRow, PoolClient } from 'pg';
 import type { IDatabase } from './database.interface.js';
-import type { AppLogger } from '../logger/index.js';
 import { config } from '~/config/index.js';
+import { Cradle } from '~/container.js';
 
 export class PostgresDatabase implements IDatabase {
   private readonly pool: pg.Pool;
 
-  constructor(logger: AppLogger) {
+  constructor({ logger }: Pick<Cradle, 'logger'>) {
     this.pool = new pg.Pool({
       host: config.PGHOST,
       port: config.PGPORT,
