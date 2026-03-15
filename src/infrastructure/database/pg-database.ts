@@ -40,6 +40,21 @@ export class PostgresDatabase implements IDatabase {
     return this.pool.connect();
   }
 
+  async withTransaction<T>(fn: (client: PoolClient) => Promise<T>): Promise<T> {
+    const client = await this.getClient();
+    try {
+      await client.query('BEGIN');
+      const result = await fn(client);
+      await client.query('COMMIT');
+      return result;
+    } catch (err) {
+      await client.query('ROLLBACK');
+      throw err;
+    } finally {
+      client.release();
+    }
+  }
+
   async end(): Promise<void> {
     await this.pool.end();
   }

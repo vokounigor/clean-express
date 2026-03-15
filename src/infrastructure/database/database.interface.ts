@@ -8,5 +8,7 @@ export interface IDatabase {
 
   getClient(): Promise<PoolClient>;
 
+  withTransaction<T>(fn: (client: PoolClient) => Promise<T>): Promise<T>;
+
   end(): Promise<void>;
 }

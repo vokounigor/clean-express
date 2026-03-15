@@ -25,7 +25,7 @@ const parsed = configSchema.safeParse(process.env);
 
 if (!parsed.success) {
   console.error('Invalid environment configuration:');
-  console.error(parsed.error.flatten().fieldErrors);
+  console.error(z.treeifyError(parsed.error));
   process.exit(1);
 }
 
