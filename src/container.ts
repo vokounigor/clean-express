@@ -5,6 +5,7 @@ import type { IDatabase } from './infrastructure/database/database.interface.js'
 import { UserRepository } from './modules/users/user.repository.js';
 import { UserService } from './modules/users/user.service.js';
 import { UserController } from './modules/users/user.controller.js';
+import { SessionRepository } from './modules/sessions/session.repository.js';
 
 export interface Cradle {
   logger: ReturnType<typeof createLogger>;
@@ -12,6 +13,7 @@ export interface Cradle {
   userRepository: UserRepository;
   userService: UserService;
   userController: UserController;
+  sessionRepository: SessionRepository;
 }
 
 export const createAppContainer = () => {
@@ -27,6 +29,7 @@ export const createAppContainer = () => {
     userRepository: asClass(UserRepository).singleton(),
     userService: asClass(UserService).singleton(),
     userController: asClass(UserController).singleton(),
+    sessionRepository: asClass(SessionRepository).singleton(),
   });
 
   return container;

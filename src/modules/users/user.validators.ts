@@ -3,7 +3,7 @@ import { uuidParam } from '~/shared/validators/common.validator.js';
 
 export const createUserValidator = z.object({
   body: z.object({
-    name: z.string().min(1).max(100),
+    password: z.string().min(1).max(255),
     email: z.email(),
   }),
 });
@@ -11,7 +11,7 @@ export const createUserValidator = z.object({
 export const updateUserValidator = z.object({
   params: uuidParam.shape.params,
   body: z.object({
-    name: z.string().min(1).max(100).optional(),
+    password: z.string().min(1).max(255).optional(),
     email: z.email().optional(),
   }),
 });

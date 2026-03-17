@@ -21,9 +21,10 @@ describe('UserService', () => {
     it('returns user when found', async () => {
       const user = {
         id: '1',
-        name: 'Alice',
         email: 'a@example.com',
+        password: 'hashedpassword',
         createdAt: new Date(),
+        updatedAt: new Date(),
       };
       vi.mocked(mockRepo.findById!).mockResolvedValue(user);
 

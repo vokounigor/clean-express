@@ -14,6 +14,7 @@ export class UserRepository {
     const { rows } = await this.db.query<UserEntity>(
       'SELECT * FROM users ORDER BY created_at DESC'
     );
+
     return rows.map(UserEntity.fromRow);
   }
 
@@ -22,13 +23,14 @@ export class UserRepository {
       'SELECT * FROM users WHERE id = $1',
       [id]
     );
+
     return result.rows[0] ? UserEntity.fromRow(result.rows[0]) : null;
   }
 
   async create(input: CreateUserInput): Promise<UserEntity> {
     const result = await this.db.query<UserEntity>(
-      'INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *',
-      [input.name, input.email]
+      'INSERT INTO users (password, email) VALUES ($1, $2) RETURNING *',
+      [input.password, input.email]
     );
 
     return UserEntity.fromRow(result.rows[0]);
@@ -37,11 +39,12 @@ export class UserRepository {
   async update(id: string, dto: UpdateUserInput): Promise<UserEntity | null> {
     const { rows } = await this.db.query(
       `UPDATE users
-       SET name = COALESCE($1, name), email = COALESCE($2, email)
+       SET password = COALESCE($1, password), email = COALESCE($2, email), updated_at = now()
        WHERE id = $3
        RETURNING *`,
-      [dto.name ?? null, dto.email ?? null, id]
+      [dto.password ?? null, dto.email ?? null, id]
     );
+
     return rows[0] ? UserEntity.fromRow(rows[0]) : null;
   }
 
@@ -50,6 +53,7 @@ export class UserRepository {
       'DELETE FROM users WHERE id = $1',
       [id]
     );
+
     return (rowCount ?? 0) > 0;
   }
 }

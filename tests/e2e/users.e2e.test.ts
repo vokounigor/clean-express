@@ -9,6 +9,7 @@ const mockDb: IDatabase = {
   query: vi.fn(),
   getClient: vi.fn(),
   end: vi.fn(),
+  withTransaction: vi.fn(),
 };
 
 describe('Users API (e2e)', () => {

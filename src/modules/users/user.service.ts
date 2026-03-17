@@ -26,6 +26,7 @@ export class UserService {
   }
 
   async updateUser(id: string, dto: UpdateUserInput): Promise<UserEntity> {
+    // TODO: Create password hash
     const user = await this.userRepository.update(id, dto);
     if (!user) throw new HttpError(404, `User ${id} not found`);
     return user;
