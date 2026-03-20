@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express';
-import type { SessionRepository } from '~/modules/sessions/session.repository.js';
-import type { UserRepository } from '~/modules/users/user.repository.js';
+import type { ISessionRepository } from '~/modules/sessions/session.repository.interface.js';
+import type { IUserRepository } from '~/modules/users/user.repository.interface.js';
 import { getSessionIdFromRequest } from '~/modules/auth/auth.cookie.js';
 import { HttpError } from '~/shared/errors/http-error.js';
 import type { UserEntity } from '~/modules/users/user.entity.js';
@@ -15,8 +15,8 @@ declare global {
 
 export const createAuthenticateMiddleware =
   (
-    sessionRepository: SessionRepository,
-    userRepository: UserRepository
+    sessionRepository: ISessionRepository,
+    userRepository: IUserRepository
   ): RequestHandler =>
   async (req, _res, next) => {
     try {

@@ -1,12 +1,12 @@
 import { RequestHandler } from 'express';
-import { UserService } from './user.service.js';
+import { IUserService } from './user.service.interface.js';
 import { createUserValidator, updateUserValidator } from './user.validators.js';
 import { uuidParam } from '~/shared/validators/common.validator.js';
 import { Cradle } from '~/container.js';
 import { toUserResponseDto, toUserResponseDtoList } from './user.dto.js';
 
 export class UserController {
-  private readonly userService: UserService;
+  private readonly userService: IUserService;
 
   constructor({ userService }: Pick<Cradle, 'userService'>) {
     this.userService = userService;

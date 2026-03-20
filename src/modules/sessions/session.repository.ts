@@ -1,8 +1,9 @@
 import { Cradle } from '~/container.js';
 import { IDatabase } from '~/infrastructure/database/database.interface.js';
 import { SessionEntity } from './session.entity.js';
+import { ISessionRepository } from './session.repository.interface.js';
 
-export class SessionRepository {
+export class SessionRepository implements ISessionRepository {
   private readonly db: IDatabase;
   private readonly logger: Cradle['logger'];
 

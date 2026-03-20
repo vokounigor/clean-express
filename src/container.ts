@@ -8,15 +8,19 @@ import { UserController } from './modules/users/user.controller.js';
 import { SessionRepository } from './modules/sessions/session.repository.js';
 import { AuthService } from './modules/auth/auth.service.js';
 import { AuthController } from './modules/auth/auth.controller.js';
+import type { IUserRepository } from '~/modules/users/user.repository.interface.js';
+import type { IUserService } from '~/modules/users/user.service.interface.js';
+import type { ISessionRepository } from '~/modules/sessions/session.repository.interface.js';
+import type { IAuthService } from '~/modules/auth/auth.service.interface.js';
 
 export interface Cradle {
   logger: ReturnType<typeof createLogger>;
   db: IDatabase;
-  userRepository: UserRepository;
-  userService: UserService;
+  userRepository: IUserRepository;
+  userService: IUserService;
   userController: UserController;
-  sessionRepository: SessionRepository;
-  authService: AuthService;
+  sessionRepository: ISessionRepository;
+  authService: IAuthService;
   authController: AuthController;
 }
 

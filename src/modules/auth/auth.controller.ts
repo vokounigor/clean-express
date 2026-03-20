@@ -1,6 +1,6 @@
 import type { RequestHandler } from 'express';
 import type { Cradle } from '~/container.js';
-import type { AuthService } from './auth.service.js';
+import type { IAuthService } from './auth.service.interface.js';
 import { authValidator } from './auth.validators.js';
 import { toUserResponseDto } from '~/modules/users/user.dto.js';
 import {
@@ -10,7 +10,7 @@ import {
 } from './auth.cookie.js';
 
 export class AuthController {
-  private readonly authService: AuthService;
+  private readonly authService: IAuthService;
 
   constructor({ authService }: Pick<Cradle, 'authService'>) {
     this.authService = authService;

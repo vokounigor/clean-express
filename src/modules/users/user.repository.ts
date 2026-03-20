@@ -2,8 +2,9 @@ import { IDatabase } from '~/infrastructure/database/database.interface.js';
 import { CreateUserInput, UpdateUserInput } from './user.validators.js';
 import { Cradle } from '~/container.js';
 import { UserEntity } from './user.entity.js';
+import { IUserRepository } from './user.repository.interface.js';
 
-export class UserRepository {
+export class UserRepository implements IUserRepository {
   private readonly db: IDatabase;
 
   constructor({ db }: Pick<Cradle, 'db'>) {

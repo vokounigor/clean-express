@@ -1,11 +1,12 @@
 import { HttpError } from '~/shared/errors/http-error.js';
-import { UserRepository } from './user.repository.js';
+import type { IUserRepository } from './user.repository.interface.js';
 import { CreateUserInput, UpdateUserInput } from './user.validators.js';
 import { UserEntity } from './user.entity.js';
 import { Cradle } from '~/container.js';
+import { IUserService } from './user.service.interface.js';
 
-export class UserService {
-  private readonly userRepository: UserRepository;
+export class UserService implements IUserService {
+  private readonly userRepository: IUserRepository;
 
   constructor({ userRepository }: Pick<Cradle, 'userRepository'>) {
     this.userRepository = userRepository;

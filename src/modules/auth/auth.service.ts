@@ -1,16 +1,17 @@
 import { Cradle } from '~/container.js';
-import { SessionRepository } from '../sessions/session.repository.js';
-import { UserRepository } from '../users/user.repository.js';
+import { ISessionRepository } from '../sessions/session.repository.interface.js';
+import { IUserRepository } from '../users/user.repository.interface.js';
 import { SessionEntity } from '../sessions/session.entity.js';
 import { UserEntity } from '../users/user.entity.js';
 import { AuthDto } from './auth.validators.js';
 import { HttpError } from '~/shared/errors/http-error.js';
 import { SESSION_TTL_MS } from '../../shared/constants/session.constants.js';
 import { hashPassword, verifyPassword } from '~/shared/crypto/password.js';
+import { IAuthService } from './auth.service.interface.js';
 
-export class AuthService {
-  private readonly sessionRepository: SessionRepository;
-  private readonly userRepository: UserRepository;
+export class AuthService implements IAuthService {
+  private readonly sessionRepository: ISessionRepository;
+  private readonly userRepository: IUserRepository;
 
   constructor({
     sessionRepository,
