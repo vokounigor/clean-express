@@ -27,6 +27,15 @@ export class UserRepository {
     return result.rows[0] ? UserEntity.fromRow(result.rows[0]) : null;
   }
 
+  async findByEmail(email: string): Promise<UserEntity | null> {
+    const result = await this.db.query<UserEntity>(
+      'SELECT * FROM users WHERE email = $1',
+      [email]
+    );
+
+    return result.rows[0] ? UserEntity.fromRow(result.rows[0]) : null;
+  }
+
   async create(input: CreateUserInput): Promise<UserEntity> {
     const result = await this.db.query<UserEntity>(
       'INSERT INTO users (password, email) VALUES ($1, $2) RETURNING *',

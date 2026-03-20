@@ -11,8 +11,8 @@ const userRowSchema = z.object({
 export class UserEntity {
   constructor(
     public readonly id: string,
-    public readonly password: string,
     public readonly email: string,
+    public readonly password: string,
     public readonly createdAt: Date,
     public readonly updatedAt: Date
   ) {}
@@ -21,8 +21,8 @@ export class UserEntity {
     const parsed = userRowSchema.parse(row);
     return new UserEntity(
       parsed.id,
-      parsed.password,
       parsed.email,
+      parsed.password,
       parsed.created_at,
       parsed.updated_at
     );
