@@ -21,6 +21,13 @@ export class SessionRepository implements ISessionRepository {
     return SessionEntity.fromRow(result.rows[0]);
   }
 
+  async touchSession(id: string, newExpiresAt: Date): Promise<void> {
+    await this.db.query(
+      'UPDATE sessions SET expires_at = $1, updated_at = now() WHERE id = $2',
+      [newExpiresAt, id]
+    );
+  }
+
   async findById(id: string): Promise<SessionEntity | null> {
     const result = await this.db.query('SELECT * FROM sessions WHERE id = $1', [
       id,

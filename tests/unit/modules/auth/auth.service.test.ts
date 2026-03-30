@@ -29,7 +29,8 @@ const makeSession = (overrides?: Partial<SessionEntity>): SessionEntity =>
     overrides?.id ?? 'session-uuid-1',
     overrides?.userId ?? 'user-uuid-1',
     overrides?.createdAt ?? new Date('2024-01-01'),
-    overrides?.expiresAt ?? new Date(Date.now() + SESSION_TTL_MS)
+    overrides?.expiresAt ?? new Date(Date.now() + SESSION_TTL_MS),
+    overrides?.updatedAt ?? new Date('2024-01-01')
   );
 
 const mockUserRepository = {

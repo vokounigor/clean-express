@@ -18,6 +18,11 @@ export async function up(pgm: MigrationBuilder): Promise<void> {
       notNull: true,
       default: pgm.func('now()'),
     },
+    updated_at: {
+      type: 'timestamptz',
+      notNull: true,
+      default: pgm.func('now()'),
+    },
     expires_at: {
       type: 'timestamptz',
       notNull: true,
