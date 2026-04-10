@@ -15,9 +15,8 @@
     "strict": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
-    "baseUrl": ".",
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["./src/*"]
     }
   },
   "include": ["src"],
